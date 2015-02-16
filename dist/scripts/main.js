@@ -4,47 +4,50 @@
 var Todo ={};
  var Todo = Backbone.Model.extend({
 
-    defaults: function() {
-      return {
-        title: "empty todo...",
-        order: Todo.nextOrder(),
-        complete: false
-      };
-    },
+    initialize: function() {
+      var taskName = this.get('task');
 
-    toggle: function() {
-      this.save({done: !this.get("complete")});
-    }
+      },
+
+      idAttribute: '_id',
+      
+
+        defaults:{
+        title: "empty todo...",
+        
+      }
+    
+
+    
 
   });
 
 //build collection//
 var TodoList = Backbone.Collection.extend ({
 
-	    completed: function() {
-        return this.where({complete: true});
-    },
+    initialize: function () {
+    console.log('Collection Created');
 
-      remaining: function () {
-      return this.where({complete: false});
-    },
+  },
 
+  model: Todo, 
+
+  url: 'http://tiy-atl-fe-server.jerokuapp.com/collections/backbone1.jtalist'
  
-      nextOrder: function() {
-      if (!this.length) return 1;
-      return this.last().get('order') + 1;
-    },
-
- 
-    comparator: 'order'
+  
 
   });
 
 
-var Todo = new TodoList;
+var allTodo = new TodoList;
  console.log(TodoList);
 
- var   taskName,
+
+
+
+
+ var   
+       taskName, 
        taskInstance,
        tdList = $('#todoList'),
        layoutForm = $('#addTodo'),
@@ -61,7 +64,7 @@ var Todo = new TodoList;
 //console.log(taskTemplateFunc);
 
 
-var allTodo = []; 
+var allTodos = []; 
 
 
 var ToDos = function (taskName) {
@@ -77,22 +80,38 @@ var ToDos = function (taskName) {
   }
 
 var addTodo = function (task) {
-  allTodo.push(task);
+  allTodos.push(task);
   tdList.append(taskTemplateFunc(task));
 };
+ 
+ layoutForm.on('submit', function (event) {
+    event.preventDefault();
 
-layoutForm.on('submit', function (event) {
-  event.preventDefault();
-    taskName = $(this).find('#text').val();
+    var taskName = document.getElementById(‘text’).value;
     taskInstance = new ToDos(taskName);
-    addTodo(taskInstance);
+    allTodo.add(itemIinstance).save().done( function () {
+    });
 
 
-    this.reset();
 
-  });
+$(“#itemForm”)(0).reset();
 
-tdList.on('cick', 'li', function (event) {
+});
+
+
+
+
+
+   // taskName = $(this).find('#text').val();
+   // taskInstance = new ToDos(taskName);
+   // addTodo(taskInstance);
+
+
+  
+
+  
+
+tdList.on('click', 'li', function (event) {
   event.preventDefault();
   var thisTask = event.target;
   var thisTaskInstance = _.findWhere(app.allTodo);

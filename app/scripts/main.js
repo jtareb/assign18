@@ -9,11 +9,11 @@ var Todo ={};
 
       },
 
-
-
+      idAttribute: '_id',
+      
 
         defaults:{
-        title: "empty todo...",
+        title: "",
         
       }
     
@@ -32,8 +32,7 @@ var TodoList = Backbone.Collection.extend ({
 
   model: Todo, 
 
-  url: 'http://tiy-atl-fe-server.jerokuapp.com/collections/backbone1'//server http//
-
+  url: 'http://tiy-atl-fe-server.herokuapp.com/collections/backbone1.jtalist'
  
   
 
@@ -44,17 +43,11 @@ var allTodo = new TodoList;
  console.log(TodoList);
 
 
-allTodo.fetch().done(function () {
-  console.log
-})
-var a = new Todo ({ name: 'wash car'});
-var b = new Todo ({ name: 'buy groceries'});
-var c = new Todo ({ name: 'get gas'});
+
 
 
  var   
        taskName, 
-       taskInstance,
        tdList = $('#todoList'),
        layoutForm = $('#addTodo'),
        taskTemplate = $('#todoTemp').html(),
@@ -89,19 +82,36 @@ var addTodo = function (task) {
   allTodos.push(task);
   tdList.append(taskTemplateFunc(task));
 };
+ 
+ layoutForm.on('submit', function (event) {
+    event.preventDefault();
+    taskName = document.getElementById("text").value;
+    console.log(taskName);
 
-layoutForm.on('submit', function (event) {
-  event.preventDefault();
-    taskName = $(this).find('#text').val();
-    taskInstance = new ToDos(taskName);
-    addTodo(taskInstance);
+    var taskInstance = new Todo({title: taskName});
+    allTodo.add(taskInstance).save().done( function () {
+    });
 
 
-    this.reset();
 
-  });
+  $('#addTodo')[0].reset();
 
-tdList.on('cick', 'li', function (event) {
+});
+
+
+
+
+
+   // taskName = $(this).find('#text').val();
+   // taskInstance = new ToDos(taskName);
+   // addTodo(taskInstance);
+
+
+  
+
+  
+
+tdList.on('click', 'li', function (event) {
   event.preventDefault();
   var thisTask = event.target;
   var thisTaskInstance = _.findWhere(app.allTodo);
