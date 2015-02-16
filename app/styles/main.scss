@@ -3,38 +3,21 @@
 @import '../../bower_components/neat/app/assets/stylesheets/neat';
 
 // Custom Styles
-
- body {
-  width: 600px;
-  margin: 0 auto;
- }
- 
-
- #todolist h1 {
+.container {
+  width: 1427px;
+  margin: 0, auto;
+  display: inline-block;
   text-align: center;
-  font-size: 45px;
-  font-weight: bold;
-  padding: 0 0 20px 0;
-  background-color: hsla(126, 96%, 82%, 1.0);
+
 }
 
-#todolist input {
-  width: 600px;
-  height: 45px;
-  padding: 10px;
-  font-size: 25px;
+input {
+  text-align: center;	
+  width: 340px;
+  height: 40px;
 }
 
-#main {
-  display: block;
-}
-
-#todo-list{
-  margin: 10px 0;
-}
-
-#todolist footer {
-  overflow: hidden;
-  border-top: 1px solid;
-  background-color: hsla(126, 96%, 82%, 1.0);
+.main {
+	text-align: center;
+	
 }

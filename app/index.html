@@ -22,29 +22,22 @@
     <!-- endbuild -->
   </head>
   <body>
+    
+       <div class="container" >
+            <h1>Vehicle Maintenence to-do list</h1>
+                <form id="addTodo">
+                    <input id="text" placeholder="What's next on the list?" value=""/>
+                </form>
+                <ul id="todoList"></ul>
 
-        <div id="todolist">
-           <header> 
-                <h1>Things to do</h1>
-                <input id="new-todo" type="text" placeholder="What needs to be done?">
-            </header>
-            
-            <section id="main">
-                <input id="toggleall" type="checkbox">
-                <label for="toggleall">Mark as complete</label>
-              <ul id="todo-list"></ul>
-            </section>
+         <script type="text/template" id="todoTemp">
+           
+            <li class="<%= status %>"><%= task %></li>
+        
+        </script>
+        </div>
 
-            <footer>
-                <a id="clear-completed">Clear 1 completed item</a>
-               <div class="todo-count">
-                <b>0</b>
-                    "items left"
-               </div>
-            </footer>
-        </div> 
-
-   
+  
 
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
