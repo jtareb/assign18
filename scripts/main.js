@@ -1,74 +1,25 @@
-'use strict';
-  
-//build model//
-var Todo ={};
- var Todo = Backbone.Model.extend({
+(function () {
 
-    initialize: function() {
-      var taskName = this.get('task');
+  'use strict';
 
-      },
+  var taskname, 
+      taskinstance,
+      todoArea = $('#todoList'),
+      todoForm = $('#addTodo'),
+      todoTemplate = $('#todoTemp').html(),
+      todoTemplateFunc = _.template(todoTemplate);
 
-      idAttribute: '_id',
-      
+  // Main Object
+  window.app = {};
 
-        defaults:{
-        title: "",
-        
-      }
-    
+  // Main Collection
+  app.allTodos = [];
 
-    
-
-  });
-
-//build collection//
-var TodoList = Backbone.Collection.extend ({
-
-    initialize: function () {
-    console.log('Collection Created');
-
-  },
-
-  model: Todo, 
-
-  url: 'http://tiy-atl-fe-server.herokuapp.com/collections/backbone1.jtalist'
- 
-  
-
-  });
-
-
-var allTodo = new TodoList;
- console.log(TodoList);
-
-
-
-
-
- var   
-       taskName, 
-       tdList = $('#todoList'),
-       layoutForm = $('#addTodo'),
-       taskTemplate = $('#todoTemp').html(),
-       toggleAll = $('#toggle-all'),
-       taskTemplateFunc = _.template(taskTemplate);
-//console.log(taskName);
-//console.log(taskInstance);
-//console.log(tdList);
-//console.log(layoutForm);
-//console.log(taskTemplate);
-//console.log(toggleAll);
-//console.log(taskTemplate);
-//console.log(taskTemplateFunc);
-
-
-var allTodos = []; 
-
-
-var ToDos = function (taskName) {
-  this.task = taskName || "";
-  this.status = "incomplete";
+  // Main Constructor
+  app.ToDo = function (taskName) {
+    this.task = taskName || "";
+    this.status = "incomplete";
+    this.id = _.random(0, 9999);
     this.toggleStatus = function () {
       if (this.status === 'incomplete') {
         this.status = 'complete';
@@ -78,49 +29,48 @@ var ToDos = function (taskName) {
     }
   }
 
-var addTodo = function (task) {
-  allTodos.push(task);
-  tdList.append(taskTemplateFunc(task));
-};
- 
- layoutForm.on('submit', function (event) {
+  // Add Function
+  app.addTodo = function (task) {
+    app.allTodos.push(task);
+    todoArea.prepend(todoTemplateFunc(task));
+  };
+
+  // Add Todo (from Form)
+  // Submit Event Watcher
+  todoForm.on('submit', function (event) {
     event.preventDefault();
-    taskName = document.getElementById("text").value;
-    console.log(taskName);
 
-    var taskInstance = new Todo({title: taskName});
-    allTodo.add(taskInstance).save().done( function () {
-    });
+    // Grab text from my input
+    taskname = $(this).find('#text').val();
+
+    // Create a new Todo
+    taskinstance = new app.ToDo(taskname);
+
+    // Run the function addTodo
+    app.addTodo(taskinstance);
+
+    // Clear the form
+    this.reset();
+  });
+
+  // Create click event for toggleing todos
+  todoArea.on('click', 'li', function (event) {
+    event.preventDefault();
+
+    var thisTask = event.target;
+    var thisTaskID = Number(thisTask.id);
+
+    var thisTaskInstance = _.findWhere(app.allTodos, { id: thisTaskID });
+
+    thisTaskInstance.toggleStatus();
+
+    $(thisTask).removeClass().addClass(thisTaskInstance.status);
 
 
-
-  $('#addTodo')[0].reset();
-
-});
-
-
-
-
-
-   // taskName = $(this).find('#text').val();
-   // taskInstance = new ToDos(taskName);
-   // addTodo(taskInstance);
-
-
-  
-
-  
-
-tdList.on('click', 'li', function (event) {
-  event.preventDefault();
-  var thisTask = event.target;
-  var thisTaskInstance = _.findWhere(app.allTodo);
-  thisTaskInstance.toggleStatus();
-  $(thisTask).removeClass().addClass(thisTaskInstance.status);
-
-});
+  });
 
 
 
-    
 
+
+}());
