@@ -13,7 +13,7 @@ var Todo ={};
       
 
         defaults:{
-        title: "empty todo...",
+        title: "",
         
       }
     
@@ -32,7 +32,7 @@ var TodoList = Backbone.Collection.extend ({
 
   model: Todo, 
 
-  url: 'http://tiy-atl-fe-server.jerokuapp.com/collections/backbone1.jtalist'
+  url: 'http://tiy-atl-fe-server.herokuapp.com/collections/backbone1.jtalist'
  
   
 
@@ -48,7 +48,6 @@ var allTodo = new TodoList;
 
  var   
        taskName, 
-       taskInstance,
        tdList = $('#todoList'),
        layoutForm = $('#addTodo'),
        taskTemplate = $('#todoTemp').html(),
@@ -86,15 +85,16 @@ var addTodo = function (task) {
  
  layoutForm.on('submit', function (event) {
     event.preventDefault();
+    taskName = document.getElementById("text").value;
+    console.log(taskName);
 
-    var taskName = document.getElementById(‘text’).value;
-    taskInstance = new ToDos(taskName);
-    allTodo.add(itemIinstance).save().done( function () {
+    var taskInstance = new Todo({title: taskName});
+    allTodo.add(taskInstance).save().done( function () {
     });
 
 
 
-$(“#itemForm”)(0).reset();
+  $('#addTodo')[0].reset();
 
 });
 
